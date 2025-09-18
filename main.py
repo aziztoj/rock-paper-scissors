@@ -12,7 +12,6 @@ user1choice = 0
 user2choice = 0
 user1wins = 0
 user2wins = 0
-play_again = True
 
 #creating a new file to record the game if playing against another player
 with open("record.txt", "w") as file:
@@ -32,7 +31,6 @@ def compgame():
     print()
     global user_wins
     global comp_wins
-    global play_again
     print("CHOOSE EITHER ROCK (type 1), SCISSORS (type 2) OR PAPER (type 3)")
     user_choice = int(input())
     comp_choice = random.choice(options)
@@ -48,6 +46,7 @@ def compgame():
         comp_wins += 1
         print("You chose", choice[user_choice - 1], "and the computer chose", choice[comp_choice - 1])
     print("You have", user_wins, "wins and the computer has", comp_wins, "wins")
+    print("------------------------------------------------------------------")
  
 
 #code for game against another player
@@ -59,7 +58,6 @@ def userplay():
     global user1wins
     global user2wins
     global file
-    global play_again
     print()
     print(name1, "pick either ROCK(1), SCISSORS(2) or PAPER(3):")
     user1choice = int(getpass.getpass(""))
@@ -86,6 +84,7 @@ def userplay():
         print(name1, "chose", choice[user1choice - 1], "and", name2, "chose", choice[user2choice - 1],"\n")
         user2wins +=1 
     print(name1, "has", user1wins, "wins and", name2, "has", user2wins, "wins")
+    print("------------------------------------------------------------------")
 
 #asking if they want to play against the computer or another player
 print("\nDo you want to play against the computer or against another player?")
@@ -96,16 +95,18 @@ if play_against == 2:
     print("Player 2, enter your name: ")
     name2 = input()
 
-print("How many rounds do you want to play?")
+print("\nHow many rounds do you want to play?")
 rounds = int(input("Type the number of rounds: "))
 
+#looping the game for the number of rounds the user wants to play
 if play_against == 1:
     for i in range(rounds):
         compgame()
 else:
     for i in range(rounds):
         userplay()
-
+        
+#display winner against computer
 if play_against == 1:
     
     print()
@@ -117,6 +118,8 @@ if play_against == 1:
     else:
         print("The computer is the overall winner!")
     print()
+    
+#display winner against another player
 else:
     print()
     if user1wins > user2wins:
