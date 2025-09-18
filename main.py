@@ -48,12 +48,7 @@ def compgame():
         comp_wins += 1
         print("You chose", choice[user_choice - 1], "and the computer chose", choice[comp_choice - 1])
     print("You have", user_wins, "wins and the computer has", comp_wins, "wins")
-    play_again = int(input("Do you want to play again? Type 1 for yes and 2 for no: "))
-    if play_again == 1:
-        play_again = True
-    else:
-        play_again = False
-    return play_again
+ 
 
 #code for game against another player
 def userplay():
@@ -90,28 +85,25 @@ def userplay():
         file.close()
         print(name1, "chose", choice[user1choice - 1], "and", name2, "chose", choice[user2choice - 1],"\n")
         user2wins +=1 
-    print("Do you want to play again? Type 1 for yes and 2 for no: ")
-    play_again = int(input())
-    if play_again == 1:
-        play_again = True
-    else:
-        play_again = False
-
-    return play_again
+    print(name1, "has", user1wins, "wins and", name2, "has", user2wins, "wins")
 
 #asking if they want to play against the computer or another player
 print("\nDo you want to play against the computer or against another player?")
 print("Type 1 for computer and 2 for another player")
 play_against = int(input())
+
 if play_against == 2:
     print("Player 2, enter your name: ")
     name2 = input()
 
+print("How many rounds do you want to play?")
+rounds = int(input("Type the number of rounds: "))
 
-while play_again == True:
-    if play_against == 1:
+if play_against == 1:
+    for i in range(rounds):
         compgame()
-    else:
+else:
+    for i in range(rounds):
         userplay()
 
 if play_against == 1:

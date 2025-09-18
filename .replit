@@ -28,3 +28,26 @@ requiredFiles = [".replit", "replit.nix", ".config", "venv"]
 
 [agent]
 expertMode = true
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Rock Paper Scissors Game"
+
+[[workflows.workflow]]
+name = "Rock Paper Scissors Game"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python main.py"
+
+[workflows.workflow.metadata]
+outputType = "console"
