@@ -1,2 +1,3 @@
 This is the record of the game: 
-eeshan won the round!
+MODE: Computer 
+aziz: rock | Computer: paper | result: Computer wins  
