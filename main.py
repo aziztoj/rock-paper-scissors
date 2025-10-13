@@ -3,6 +3,7 @@ import getpass
 #1
 options = [1,2,3] 
 play_again = 1
+result = ""
 play_against = 0
 user_wins = 0
 comp_wins = 0
@@ -13,6 +14,8 @@ user1choice = 0
 user2choice = 0
 user1wins = 0
 user2wins = 0
+p1 = 0
+p2 = 0
 
 #creating a new file to record the game if playing against another player
 with open("record.txt", "w") as file:
@@ -27,57 +30,8 @@ rules_needed = input("Type y/n: ").lower()
 if rules_needed == "n":
     print("Rock beats scissors, scissors beats paper, paper beats rock. If you play the same as the computer, its a draw. Good luck!\n")
 
-#code for game against computer
-def compgame():
-    print()
-    global user1wins
-    global user2wins
-    global file
-    print("CHOOSE EITHER ROCK (type 1), SCISSORS (type 2) OR PAPER (type 3)")
-    name2 = "Computer"
-    user1choice = 0
-    while user1choice != 1 and user1choice != 2 and user1choice != 3:
-        user1choice = int(input())
-        if user1choice != 1 and user1choice != 2 and user1choice != 3:
-            print("Invalid input, please try again")
-            user1choice = int(input())
-            continue
-        else:
-            break
-        break
-        
-    user2choice = random.choice(options)
-    if user1choice - user2choice == -1 or user1choice - user2choice == 2:
-        result = "You win"
-        user1wins += 1
-        
-    elif user1choice == user2choice:
-        result = "Its a draw!"
-        
-    else:
-        result = "Computer wins"
-        user2wins += 1
-
-
-    print(result)
-    print("You chose", choice[user1choice - 1], "and the computer chose", choice[user2choice - 1])
-    print("You have", user1wins, "wins and the computer has", user2wins, "wins")
-    print("------------------------------------------------------------------")
-    with open("record.txt", "a") as file:
-        file.write(f"{name1}: {choice[user1choice-1]} | {name2}: {choice[user2choice-1]} | result: {result}  \n")
-
-#code for game against another player
-def userplay():
-    global name1
-    global name2
+def validinput():
     global user1choice
-    global user2choice
-    global user1wins
-    global user2wins
-    global file
-    print()
-    print(name1, "pick either ROCK(1), SCISSORS(2) or PAPER(3):")
-    user1choice = 0
     while user1choice != 1 and user1choice != 2 and user1choice != 3:
         user1choice = int(getpass.getpass(""))
         if user1choice != 1 and user1choice != 2 and user1choice != 3:
@@ -85,24 +39,67 @@ def userplay():
             continue
         else:
             break
-        break
-        
-    print(name2, "pick either ROCK(1), SCISSORS(2) or PAPER(3): ")
-    user2choice = 0
-    while user2choice != 1 and user2choice != 2 and user2choice != 3:
-        user2choice = int(getpass.getpass(""))
-        if user2choice != 1 and user2choice != 2 and user2choice != 3:
-            print("Invalid input, please try again")
-            continue
-        else:
-            break
-        break
+    return user1choice
 
-    if user1choice - user2choice == -1 or user1choice - user2choice == 2:
+
+def savegame(name1, p1, name2, p2, result):
+    with open("record.txt", "a") as file:
+        file.write(f"{name1}: {choice[p1-1]} | {name2}: {choice[p2-1]} | result: {result} \n")
+        
+
+#code for game against computer
+def compgame():
+    print()
+    global user1wins, user2wins, user1choice, user2choice,name2, result,p1,p2
+    
+    print("CHOOSE EITHER ROCK (type 1), SCISSORS (type 2) OR PAPER (type 3)")
+    name2 = "Computer"
+    user1choice = 0
+    validinput()
+    p1 = user1choice
+    
+    p2 = random.choice(options)
+    user2choice = p2
+    if p1 - p2 == -1 or p1 - p2 == 2:
+        result = "You win"
+        user1wins += 1
+        
+    elif p1 == p2:
+        result = "Its a draw!"
+        
+    else:
+        result = "Computer wins"
+        user2wins += 1
+
+    print(result)
+    print("You chose", choice[p1 - 1], "and the computer chose", choice[p2 - 1])
+    print("You have", user1wins, "wins and the computer has", user2wins, "wins")
+    print("------------------------------------------------------------------")
+    return p1,p2,result
+
+    
+
+#code for game against another player
+def userplay():
+    global name1, name2, user1choice, user2choice,user1wins,user2wins,result,p1,p2
+    
+    print()
+    print(name1, "pick either ROCK(1), SCISSORS(2) or PAPER(3):")
+    user1choice = 0
+    validinput(user1choice)
+    p1 = user1choice
+
+    
+    print(name2, "pick either ROCK(1), SCISSORS(2) or PAPER(3): ")
+    validinput()
+    p2 = user1choice
+    user2choice = p2
+
+    if p1 - p2 == -1 or p1 - p2 == 2:
         result = f"{name1} wins this round!"
         user1wins += 1
         
-    elif user1choice == user2choice:
+    elif p1 == p2:
         result = "Its a draw!"
         
     else:
@@ -110,11 +107,9 @@ def userplay():
         user2wins +=1 
 
     print(result)
-    print(name1, "chose", choice[user1choice - 1], "and", name2, "chose", choice[user2choice - 1],"\n")
+    print(name1, "chose", choice[p1 - 1], "and", name2, "chose", choice[p2 - 1],"\n")
     print("------------------------------------------------------------------")
-    
-    with open("record.txt", "a") as file:
-        file.write(f"{name1}: {choice[user1choice-1]} | {name2}: {choice[user2choice-1]} | result: {result} \n")
+
         
 
 #asking if they want to play against the computer or another player
@@ -129,7 +124,7 @@ while play_against != 1 and play_against != 2:
         continue
     else:
         break
-    break
+    
 
 
 
@@ -151,9 +146,11 @@ if play_against == 1:
     for i in range(rounds):
         name2 = "computer"
         compgame()
+        savegame(name1, user1choice, name2, user2choice,result)
 else:
     for i in range(rounds):
         userplay()
+        savegame(name1, user1choice, name2, user2choice, result)
         
 
 

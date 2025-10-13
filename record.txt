@@ -1,3 +1,5 @@
 This is the record of the game: 
 MODE: Computer 
-aziz: rock | Computer: paper | result: Computer wins  
+az: scissors | Computer: rock | result: Computer wins 
+az: rock | Computer: scissors | result: You win 
+az: scissors | Computer: rock | result: Computer wins 
